@@ -27,8 +27,6 @@ const names = [
 app.get("/user", (req, res)=> {
 
     return res.status(200).json({status:true, success:200, user:names});
-
-//    res.send("<h1>Successfully</h1>")
     
 })
 
@@ -36,21 +34,36 @@ app.get("/user", (req, res)=> {
 
 app.post("/add", (req, res)=> {
 console.log(req.body)
-    let UserName = req.body.UserName;
-    console.log(UserName)
-    // let UserName = "ayaz";
-    let obj = names.find(o => o.name === UserName);
-    console.log(obj)
-    if(obj)
-    {
-        return res.status(500).json({status:false, success:500, message:"user Allready Exist"});
-    }
-    else{
+    const UserName = req.body.UserName;
 
+      const findName = names.some((item)=> {
+        return item.name == UserName;
+      })
+      console.log(findName);
+      if(findName)
+      {
+        console.log(UserName);
+        return res.status(500).json({status:false, success:500, message:"user Allready Exist"});
+      }
+      else {
+        // console.log(" found");
         names.push({name:UserName});
-        return res.status(200).json({status:true, success:200, user:names});
+      return res.status(200).json({status:true, success:200, user:names});
     }
-    // res.send("<h1>Hello World</h1>")
+
+    // console.log(UserName)
+    // let obj = names.find(o => o.name === UserName);
+    // console.log(obj)
+    // if(obj)
+    // {
+    //     return res.status(500).json({status:false, success:500, message:"user Allready Exist"});
+    // }
+    // else{
+
+    //     // names.push({name:UserName});
+    //      names = [names,...UserName];
+    //     return res.status(200).json({status:true, success:200, user:names});
+    // }
 })
 
 
